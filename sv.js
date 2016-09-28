@@ -1,11 +1,11 @@
 const Hapi = require('hapi')
 const server = new Hapi.Server()
 
-server.connection({ port: 4000, host: '0.0.0.0' })
-const io = require('socket.io')(server.listener)
-
 const robot = require('robotjs')
 const myIp = require('my-local-ip')
+
+server.connection({ port: 4000, host: '0.0.0.0' })
+const io = require('socket.io')(server.listener)
 
 io.on('connection', socket => {
   console.log('connected')
