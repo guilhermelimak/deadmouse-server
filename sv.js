@@ -6,9 +6,11 @@ const socketio = require('socket.io')
 const server = new hapi.Server()
 server.connection({ port: 4000, host: '0.0.0.0' })
 
-const handleClick = a => robot.mouseClick(a.button)
+const handleClick = button => robot.mouseClick(button)
 
-const handleScroll = a => robot.scrollMouse(a.dy, a.direction)
+const handleScroll = (event) => {
+  robot.scrollMouse(event.scrollAmount, event.direction)
+}
 
 const handleMove = (distance) => {
   const currentPos = robot.getMousePos()
