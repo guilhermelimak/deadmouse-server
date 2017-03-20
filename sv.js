@@ -1,25 +1,32 @@
-const Hapi = require('hapi')
-const server = new Hapi.Server()
-
 const robot = require('robotjs')
 const myIp = require('my-local-ip')
+const hapi = require('hapi')
+const socketio = require('socket.io')
 
+const server = new hapi.Server()
 server.connection({ port: 4000, host: '0.0.0.0' })
-const io = require('socket.io')(server.listener)
 
-io.on('connection', socket => {
-  console.log('connected')
+const handleClick = a => robot.mouseClick(a.button)
 
-  socket.on('move', (a, e) => {
-    const {x, y} = a
-    const mousePos = robot.getMousePos()
+const handleScroll = a => robot.scrollMouse(a.dy, a.direction)
 
-    robot.moveMouse(mousePos.x + x, mousePos.y + y)
-  })
+const handleMove = (distance) => {
+  const currentPos = robot.getMousePos()
 
-  socket.on('click', a => robot.mouseClick(a.button))
-  socket.on('scroll', a => robot.scrollMouse(a.dy, a.direction))
-})
+  robot.moveMouse(
+    currentPos.x + distance.x,
+    currentPos.y + distance.y
+  )
+}
+
+const handleConection = (socket) => {
+  console.log('Connected to server')
+  socket.on('move', handleMove)
+  socket.on('click', handleClick)
+  socket.on('scroll', handleScroll)
+}
+
+socketio(server.listener).on('connection', handleConection)
 
 server.start()
 console.log(`Listening on http://${myIp()}:4000`)
