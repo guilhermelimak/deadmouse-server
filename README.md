@@ -4,3 +4,9 @@ This is the server used to conect the deadmouse client to your pc.
 
 Run this server in your pc and it will show you a ip address, keep it running and use this address
 in the app on your phone in the settings page.
+
+
+#### dev
+Robotjs needs the following packages to be installed
+
+```sudo apt-get install libxtst-dev libpng-dev```
