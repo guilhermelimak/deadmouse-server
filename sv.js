@@ -22,7 +22,7 @@ const handleMove = (distance) => {
 }
 
 const handleConection = (socket) => {
-  console.log('Connected to server')
+  console.log('New client conected')
   socket.on('move', handleMove)
   socket.on('click', handleClick)
   socket.on('scroll', handleScroll)
